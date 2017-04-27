@@ -19,6 +19,8 @@
 		<html:text property="busName" size="50" />
 			<br>
 		choose bus type:
+		
+		
 			<html:select property="busType">
 				<html:option value="0">Select Type</html:option>
 				<html:option value="AC Sleeper">AC Sleeper</html:option>
