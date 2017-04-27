@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC
+        "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.3.0//EN"
+        "http://jakarta.apache.org/commons/dtds/validator_1_3_0.dtd">
+
+<form-validation>
+	<formset>
+		<form name="loginForm">
+
+
+			<field property="username" depends="required">
+				<msg name="required" key="err.user.username.required" />
+			</field>
+
+			<field property="password" depends="required,maxlength,minlength,mask">
+
+				<msg name="required" key="err.user.password.required" />
+				<msg name="maxlength" key="err.user.password.length" />
+				<msg name="minlength" key="err.user.password.length" />
+				<msg name="mask" key="err.user.password.invalid" />
+
+				<arg name="maxlength" key="${var:minlength}" position="0"
+					resource="false" />
+				<arg name="maxlength" key="${var:maxlength}" position="1"
+					resource="false" />
+
+				<arg name="minlength" key="${var:minlength}" position="0"
+					resource="false" />
+				<arg name="minlength" key="${var:maxlength}" position="1"
+					resource="false" />
+
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>4</var-value>
+				</var>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>10</var-value>
+				</var>
+				<var>
+					<var-name>mask</var-name>
+					<var-value>^[a-zA-Z0-9]*$</var-value>
+				</var>
+			</field>
+		</form>
+		<form name="BusForm">
+			<!-- private String busName; private int busId; private String startingPoint; 
+				private String endPoint; private int seats; private String busType; private 
+				String busNumber; -->
+
+			<field property="busName" depends="required">
+				<msg name="required" key="err.bus.busname.required" />
+			</field>
+		</form>
+	</formset>
+</form-validation> 

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+"http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="loginForm" type="com.jwt.struts.form.LoginForm" />
+		<form-bean name="registerForm" type="com.jwt.struts.form.UserForm" />
+		<form-bean name="BusForm" type="com.jwt.struts.form.BusForm"></form-bean>
+	</form-beans>
+	<global-exceptions>
+		<exception key="error.global.mesage" type="java.io.IOException"
+			path="jsp/login.jsp" />
+	</global-exceptions>
+	<action-mappings>
+		<action name="loginForm" path="/login"
+			type="com.jwt.struts.action.LoginAction" scope="request" input="/jsp/login.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="normaluser" path="/jsp/userhome.jsp" />
+			<forward name="success" path="/jsp/home.jsp" />
+		</action>
+		<action name="registerForm" path="/register"
+			type="com.jwt.struts.action.UserRegisterAction" input="/jsp/register.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/success.jsp" />
+		</action>
+		<action name="BusForm" path="/bus" type="com.jwt.struts.action.BusBooking"
+			input="/jsp/home.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/displayingbus.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+		<action name="BusForm" path="/addbus"
+			type="com.jwt.struts.action.AddBusAction" input="/jsp/addbus.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/displaybus.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+		<action name="BusForm" path="/bookseat"
+			type="com.jwt.struts.action.BookingAction" input="/jsp/seats.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/payment.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+		<action name="BusForm" path="/editbusaction"
+			type="com.jwt.struts.action.EditBusAction" input="/jsp/editbus.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/editbus.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+		<action name="BusForm" path="/deletebusaction"
+			type="com.jwt.struts.action.DeleteBusAction" input="/jsp/deletebus.jsp">
+			<forward name="failure" path="/jsp/displaybus.jsp" />
+			<forward name="success" path="/jsp/displaybus.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+		<action name="BusForm" path="/book"
+			type="com.jwt.struts.action.SearchBusAction" input="/jsp/searchbus.jsp">
+			<forward name="failure" path="/jsp/userhome.jsp" />
+			<forward name="success" path="/jsp/searchresult.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+		<action name="BusForm" path="/selectseat"
+			type="com.jwt.struts.action.SeatSelectAction" input="/jsp/searchresult.jsp">
+			<forward name="success" path="/jsp/seats.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+
+		<action path="/passenger" name="BusForm"
+			type="com.jwt.struts.action.GetPassengerDetailsAction" input="/jsp/seats.jsp">
+			<forward name="success" path="/jsp/pdetails.jsp"></forward>
+			<forward name="login" path="/jsp/login.jsp"></forward>
+		</action>
+
+		<action name="BusForm" path="/confirmseat"
+			type="com.jwt.struts.action.SeatConfirmation" input="/jsp/seats.jsp">
+			<forward name="success" path="/jsp/ticket.jsp" />
+			<forward name="login" path="/jsp/login.jsp" />
+		</action>
+
+		<action path="/logout" type="com.jwt.struts.action.LogoutAction">
+			<forward name="success" path="/jsp/login.jsp" />
+		</action>
+
+		<action path="/addbuspage" forward="/jsp/addbus.jsp" />
+		<action path="/booking" forward="/jsp/searchbus.jsp" />
+		<action path="/displayingbus" forward="/jsp/displaybus.jsp" />
+		<action path="/editbus" forward="/jsp/editbus.jsp" />
+		<action path="/deletebus" forward="/jsp/deletebus.jsp" />
+		<action path="/movie" forward="/jsp/moviebooking.jsp" />
+	</action-mappings>
+	<message-resources parameter="com.jwt.struts.resources.ApplicationResource" />
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml,/WEB-INF/validator.xml" />
+	</plug-in>
+	<!-- <plug-in className="org.apache.struts.tiles.TilesPlugin" > <set-property 
+		property="definitions-config" value="/WEB-INF/tiles-defs.xml"/> </plug-in> -->
+</struts-config>
