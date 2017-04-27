@@ -1,4 +1,4 @@
-package src.com.jwt.struts.action;
+package com.jwt.struts.action;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

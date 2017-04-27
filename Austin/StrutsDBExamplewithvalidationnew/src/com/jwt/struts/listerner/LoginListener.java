@@ -1,4 +1,4 @@
-package src.com.jwt.struts.listerner;
+package com.jwt.struts.listerner;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package src.com.jwt.struts.form;
+package com.jwt.struts.form;
 
 import javax.servlet.http.HttpServletRequest;
 

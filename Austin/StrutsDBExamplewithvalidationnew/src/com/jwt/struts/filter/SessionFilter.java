@@ -1,4 +1,4 @@
-package src.com.jwt.struts.filter;
+package com.jwt.struts.filter;
 
 import java.io.IOException;
 

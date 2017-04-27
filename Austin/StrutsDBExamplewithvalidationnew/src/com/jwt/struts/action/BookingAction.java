@@ -1,4 +1,4 @@
-package src.com.jwt.struts.action;
+package com.jwt.struts.action;
 
 import java.io.Writer;
 import java.sql.Connection;
@@ -21,7 +21,7 @@ import org.apache.struts.action.ActionMapping;
 import com.jwt.struts.dao.UserDAO;
 import com.jwt.struts.form.BusForm;
 
-public class SearchBusAction extends Action {
+public class BookingAction extends Action {
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -31,33 +31,29 @@ public class SearchBusAction extends Action {
 			int i = (Integer) session.getAttribute("role");
 			System.out.println(i);
 			if (session.getAttribute("username") != null) {
-				BusForm busForm = (BusForm) form;
 				Connection connection = (Connection) request.getServletContext().getAttribute("connection");
 				UserDAO dao = new UserDAO();
 				List<BusForm> list = new ArrayList<BusForm>();
-				String source=busForm.getStartingPoint();
-				String end=busForm.getEndPoint();
-				String date=busForm.getDate();
+				BusForm busForm = new BusForm();
+				String source = busForm.getStartingPoint();
+				String end = busForm.getEndPoint();
+				String date = busForm.getDate();
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				System.out.println(df);
 				Date dateOfJourney;
-				String MyDate = null,newDate=null;
+				String MyDate = null;
 				try {
 					dateOfJourney = df.parse(date);
 					((SimpleDateFormat) df).applyPattern("EEEE");
 					MyDate = df.format(dateOfJourney);
 					session.setAttribute("traveldate", dateOfJourney);
-					((SimpleDateFormat) df).applyPattern("yyyy-MM-dd");
-					newDate=df.format(dateOfJourney);
-					session.setAttribute("tdate", newDate);
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				list = dao.getBus(source,end,connection,MyDate);
-				
+				list = dao.getBus(source, end, connection, MyDate);
 				busForm.setList(list);
-				System.out.println(source+" " + end+" "+date);
+				System.out.println(source + " " + end + " " + date);
 				System.out.println(list);
 				return mapping.findForward("success");
 			} else {
@@ -69,4 +65,5 @@ public class SearchBusAction extends Action {
 			return mapping.findForward("login");
 		}
 	}
+
 }

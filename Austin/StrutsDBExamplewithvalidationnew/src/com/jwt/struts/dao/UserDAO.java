@@ -1,4 +1,4 @@
-package src.com.jwt.struts.dao;
+package com.jwt.struts.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
