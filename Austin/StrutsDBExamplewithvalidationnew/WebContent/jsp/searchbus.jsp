@@ -24,9 +24,9 @@
         destination : <html:text property="endPoint" />
 		<br />
 		<br />
-		select date<%-- <input type="date" name="selecteddate" min="${today}"> --%>
-		
-		<label for="from">From</label> <input type="date" id="selecteddate" name="selecteddate"/>
+		select date
+		<label for="from">From</label> <<!-- input type="date" id="selecteddate" name="selecteddate"/> -->
+		<html:text property="date" ></html:text>
 		<html:submit value="book" />
 	</html:form>
 </body>

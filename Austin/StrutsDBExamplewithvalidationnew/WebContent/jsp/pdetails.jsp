@@ -30,8 +30,8 @@
 		<br>
 		<label>Choose Gender</label>
 		<select name="gender<%=counterOne%>">
-			<option value="Male">Male</option>
-			<option value="Female">Female</option>
+			<option value="M">Male</option>
+			<option value="F">Female</option>
 		</select>
 		<br>
 		<label>Contact</label>

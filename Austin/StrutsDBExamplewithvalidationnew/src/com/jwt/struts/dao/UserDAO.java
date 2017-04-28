@@ -250,7 +250,7 @@ public class UserDAO {
 			preparedStatement = connection.prepareStatement(
 					"insert into ticket_mapping(seat_number,passenger_id,bus_no,date) "
 								+ "VALUES('" + list.get(i) + "','" + id.get(i) + "','" + busNumber + "','" + date + "')");
-					System.out.println("seat added is "+ list.get(i) + "for" + id.get(i));
+					System.out.println("seat added is "+ list.get(i) + "for " + id.get(i) + "on " +date);
 					preparedStatement.executeUpdate();
 			}
 			return true;
@@ -290,8 +290,6 @@ public class UserDAO {
 		PreparedStatement preparedStatementforPid;
 		Iterator<BusForm> iterator=forms.iterator();
 		List<Integer> pid=new ArrayList<Integer>();
-		int value = 0;
-		
 		while(iterator.hasNext()){
 			BusForm passenger=new BusForm();
 			passenger=iterator.next();
@@ -308,8 +306,9 @@ public class UserDAO {
 				preparedStatementforPid.setString(3,gender);
 				preparedStatementforPid.setInt(4, contact);
 				ResultSet rs1=preparedStatementforPid.executeQuery();
-				System.out.println(rs1.getInt("passenger_id"));
+				System.out.println(rs1);
 				if(rs1.next()){
+					System.out.println(rs1.getInt("passenger_id"));
 					System.out.println("already exists");
 				}
 				else{
@@ -318,7 +317,7 @@ public class UserDAO {
 				preparedStatement.setInt(2,age);
 				preparedStatement.setString(3,gender);
 				preparedStatement.setInt(4,contact);
-				value=preparedStatement.executeUpdate();
+				preparedStatement.executeUpdate();
 				}
 				preparedStatementforPid=connection.prepareStatement("select passenger_id from PASSENGER_DETAILS where name=? and age=? and gender=? and contact=?");
 				preparedStatementforPid.setString(1, passengerName);
@@ -337,7 +336,6 @@ public class UserDAO {
 			
 
 		}
-		System.out.println("value"+value);
 		Iterator<Integer> it=pid.iterator();
 		while(it.hasNext()){
 			System.out.println("PID: "+it.next());

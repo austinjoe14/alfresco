@@ -12,6 +12,15 @@ $(document).ready(function() {
 	
 });
 
+$(document).ready(function() {
+	$("#chooseseats").hide();
+	$("input[type='hidden'][property='seats']").click(function() {
+		
+		var seats=[]
+	})
+	
+});
+
 
 $('table#test tr.seats td#seats div#3').prop("disabled", true);
 

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@ taglib prefix="logic" uri="http://struts.apache.org/tags-logic"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,10 +17,29 @@
 <body>
 	<h1>Select your seat</h1>
 	<!-- SquaredONE -->
-	<%=request.getAttribute("female")%>
-	<%=request.getAttribute("male")%>
+	<%
+		ArrayList<Integer> countFemale = (ArrayList) request.getAttribute("female");
+		Iterator<Integer> itr = countFemale.iterator();
+		while (itr.hasNext()) {
+			int element = itr.next();
+			out.println(element);
+		}
+	%>
 
-	<html:form>
+	<html:form styleId="getseat">
+		<%
+			ArrayList<Integer> countMale = (ArrayList) request.getAttribute("male");
+				itr = countMale.iterator();
+				while (itr.hasNext()) {
+					int element = itr.next();
+		%>
+		<html:hidden property="seats" value="<%=element%>" ></html:hidden>
+		<%
+				}
+		%>
+	</html:form>
+
+	<html:form styleId="chooseseats">
 		<table id="test">
 			<tr class="seats">
 				<td id="seats"><div class="asiento">
