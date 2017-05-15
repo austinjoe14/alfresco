@@ -13,16 +13,13 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-	$("#chooseseats").hide();
-	$("input[type='hidden'][property='seats']").click(function() {
-		
-		var seats=[]
-	})
-	
+	window.location.hash="no-back-button";
+	window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+	window.onhashchange=function(){window.location.hash="no-back-button";}
+}); 
+
+$(function(){
+    $('[type="date"].min-today').prop('min', function(){
+        return new Date().toJSON().split('T')[0];
+    });
 });
-
-
-$('table#test tr.seats td#seats div#3').prop("disabled", true);
-
-$("#3").prop('disabled',true);
-$("#3").prop('disabled','disabled');

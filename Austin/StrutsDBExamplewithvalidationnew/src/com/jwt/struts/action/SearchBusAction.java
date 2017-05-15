@@ -37,7 +37,7 @@ public class SearchBusAction extends Action {
 				List<BusForm> list = new ArrayList<BusForm>();
 				String source=busForm.getStartingPoint();
 				String end=busForm.getEndPoint();
-				String date=busForm.getDate();
+				String date=request.getParameter("date");
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				System.out.println(df);
 				Date dateOfJourney;

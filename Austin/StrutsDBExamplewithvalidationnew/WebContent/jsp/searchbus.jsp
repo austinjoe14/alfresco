@@ -7,6 +7,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/simple.js"></script>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all">
 <title>Insert title here</title>
 </head>
@@ -25,8 +27,8 @@
 		<br />
 		<br />
 		select date
-		<label for="from">From</label> <<!-- input type="date" id="selecteddate" name="selecteddate"/> -->
-		<html:text property="date" ></html:text>
+		<td><input type="date" name="date" required class="min-today" id="min" data-date-split-input="true"/></td> 
+		<%-- <html:text property="date" ></html:text> --%>
 		<html:submit value="book" />
 	</html:form>
 </body>
