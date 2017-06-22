@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +36,12 @@ public class SearchBusAction extends Action {
 				Connection connection = (Connection) request.getServletContext().getAttribute("connection");
 				UserDAO dao = new UserDAO();
 				List<BusForm> list = new ArrayList<BusForm>();
+				List<String> listOne = new ArrayList<String>();
 				String source=busForm.getStartingPoint();
 				String end=busForm.getEndPoint();
+				String route=busForm.getRoute();
+				System.out.println(route);
+				String busNumber=busForm.getBusNumber();
 				String date=request.getParameter("date");
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 				System.out.println(df);
@@ -46,19 +51,29 @@ public class SearchBusAction extends Action {
 					dateOfJourney = df.parse(date);
 					((SimpleDateFormat) df).applyPattern("EEEE");
 					MyDate = df.format(dateOfJourney);
+					System.out.println("my date is "+MyDate);
 					session.setAttribute("traveldate", dateOfJourney);
 					((SimpleDateFormat) df).applyPattern("yyyy-MM-dd");
 					newDate=df.format(dateOfJourney);
+					System.out.println("new date is "+newDate);
 					session.setAttribute("tdate", newDate);
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				list = dao.getBus(source,end,connection,MyDate);
-				
 				busForm.setList(list);
-				System.out.println(source+" " + end+" "+date);
-				System.out.println(list);
+				listOne = dao.findPickupPoints(connection, busNumber, MyDate, route);
+				System.out.println(listOne);
+				busForm.setPickUp(listOne);
+				session.setAttribute("startingPoint", listOne);
+				Iterator<String> iterator = listOne.iterator();
+				while (iterator.hasNext()) {
+					System.out.println(iterator.next());
+				}
+				listOne = dao.findDroppingPoints(connection, busNumber, MyDate, route);
+				busForm.setDrop(listOne);
+				session.setAttribute("endPoint", listOne);
 				return mapping.findForward("success");
 			} else {
 				Writer writer = response.getWriter();

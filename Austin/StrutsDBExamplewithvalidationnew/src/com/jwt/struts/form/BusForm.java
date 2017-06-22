@@ -32,6 +32,8 @@ public class BusForm extends ActionForm {
 		this.date = date;
 	}
 	private List<BusForm> list;
+	private List<String> pickUp;
+	private List<String> drop;
 	private String route;
 	private String time;
 	private int ticketId;
@@ -322,6 +324,19 @@ public class BusForm extends ActionForm {
 	 */
 	public void setRoute(String route) {
 		this.route = route;
+	}
+	
+	public List<String> getPickUp() {
+		return pickUp;
+	}
+	public void setPickUp(List<String> pickUp) {
+		this.pickUp = pickUp;
+	}
+	public List<String> getDrop() {
+		return drop;
+	}
+	public void setDrop(List<String> drop) {
+		this.drop = drop;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()

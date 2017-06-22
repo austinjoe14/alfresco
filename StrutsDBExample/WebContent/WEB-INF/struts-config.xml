@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+"http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+
+<struts-config>
+	<form-beans>
+		<form-bean name="loginForm" type="com.jwt.struts.form.LoginForm" />
+		<form-bean name="registerForm" type="com.jwt.struts.form.UserForm" />
+	</form-beans>
+
+	<action-mappings>
+		<action name="loginForm" path="/login"
+			type="com.jwt.struts.action.LoginAction" scope="request" input="/jsp/login.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/success.jsp" />
+		</action>
+		<action name="registerForm" path="/register"
+			type="com.jwt.struts.action.UserRegisterAction" input="/jsp/register.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/login.jsp" />
+		</action>
+		<action name="loginForm" path="/upload"
+			type="com.jwt.struts.action.UploadAction" input="/jsp/upload.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/success.jsp" />
+		</action>
+		<action name="loginForm" path="/delete"
+			type="com.jwt.struts.action.DeleteAction" input="/jsp/delete.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/success.jsp" />
+		</action>
+		<action name="loginForm" path="/download"
+			type="com.jwt.struts.action.DownloadAction" input="/jsp/download.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/success.jsp" />
+		</action>
+		<action name="loginForm" path="/logout"
+			type="com.jwt.struts.action.LogoutAction" input="/jsp/header.jsp">
+			<forward name="success" path="/jsp/login.jsp" />
+		</action>
+	</action-mappings>
+	<message-resources parameter="com/jwt/struts/bundle/ApplicationResource" />
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames"
+			value="/WEB-INF/validator-rules.xml, /WEB-INF/validator-user.xml" />
+	</plug-in>
+</struts-config>

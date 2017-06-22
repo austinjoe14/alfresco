@@ -34,6 +34,7 @@ public class GetPassengerDetailsAction extends Action {
 				List<String> list = new ArrayList<String>();
 				for(i=1;i<=value;i++){
 					String seat=request.getParameter("seat"+i);
+					System.out.println(seat);
 					list.add(seat);
 				}
 				session.setAttribute("seatslist", list);

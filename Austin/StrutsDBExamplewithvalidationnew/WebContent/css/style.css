@@ -59,7 +59,7 @@ input[type=submit] {
 }
 
 div.foot {
-	position: fixed;
+	position : fixed;
 	bottom: 0;
 	width: 100%;
 	color: #00bcd4;

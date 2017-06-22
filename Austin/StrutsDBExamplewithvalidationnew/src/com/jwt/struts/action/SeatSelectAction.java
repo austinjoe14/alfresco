@@ -35,12 +35,19 @@ public class SeatSelectAction extends Action{
 			Date date=(Date) session.getAttribute("traveldate");
 			list = dao.getFemaleSeats(connection,date);
 			request.setAttribute("female", list);
-			System.out.println(list);
+			int length=list.size();
+			System.out.println("female seats is" +list);
 			String busNumber=busForm.getBusNumber();
 			session.setAttribute("busnumber", busNumber);
 			list = dao.getMaleSeats(connection,date);
 			request.setAttribute("male", list);
-			System.out.println(list);
+			int lengthOne=list.size();
+			System.out.println("male seats is" +list);
+			System.out.println(length+lengthOne);
+			int totalseats=length+lengthOne;
+			session.setAttribute("totalseats", totalseats);
+			request.setAttribute("totalseats", totalseats);
+			
 			return mapping.findForward("success");
 		} else {
 			Writer writer=response.getWriter();

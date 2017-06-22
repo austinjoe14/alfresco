@@ -52,6 +52,22 @@
 				<td>Bus Number</td>
 				<td><html:text property="busNumber" readonly="true" /></td>
 			</tr>
+			<%-- <tr class="seats">
+				<td>pickup point</td>
+				<td><html:select property="startingPoint"/>
+				<logic:iterate id="start"  name="BusForm"> 
+				<html:option value="start"></html:option>
+				</logic:iterate>
+				</td>
+			</tr>
+			<tr class="seats">
+				<td>drop point</td>
+				<td><html:select property="endPoint"/>
+				<logic:iterate id="start"  name="BusForm"> 
+				<html:option value="start"></html:option>
+				</logic:iterate>
+				</td>
+			</tr> --%>
 		</table>
 		<input type="submit" value="View seats"  />
 	</html:form>

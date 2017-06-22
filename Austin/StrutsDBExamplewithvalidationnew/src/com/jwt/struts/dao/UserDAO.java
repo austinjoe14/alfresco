@@ -177,7 +177,7 @@ public class UserDAO {
 			// DBOperation();
 			System.out.println("in dao ");
 			PreparedStatement preparedStatement = connection.prepareStatement(
-					"select * from bus_details where bus_no in (select bus_no from bus_route_mapping where day=? and route_id=(select route_id from route where source=? and destination=?));");
+					"select * from bus_details where bus_no in (select bus_no,route_id from bus_route_mapping where day=? and route_id=(select route_id from route where source=? and destination=?));");
 			preparedStatement.setString(1, myDate);
 			preparedStatement.setString(2, source);
 			preparedStatement.setString(3, end);
@@ -185,6 +185,7 @@ public class UserDAO {
 			System.out.println(resultSet.toString());
 			while (resultSet.next()) {
 				BusForm form = new BusForm();
+				form.setRoute(resultSet.getString("route_id"));
 				form.setBusId(resultSet.getInt("bus_id"));
 				form.setBusName(resultSet.getString("bus_name"));
 				form.setBusType(resultSet.getString("bus_type"));
@@ -342,4 +343,45 @@ public class UserDAO {
 		}
 		return pid;
 	}
+	public List<String> findPickupPoints(Connection connection, String busno, String day, String routeID) {
+		List<String> pickupPoints=new ArrayList<String>();
+		System.out.println("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII"+busno+day+routeID);
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("select location from bus_route_mapping where bus_no=? and day=? and route_id=? and type in('source','pickup')");
+			preparedStatement.setString(1, busno);
+			preparedStatement.setString(2, day);
+			preparedStatement.setString(3, routeID);
+			ResultSet rs=preparedStatement.executeQuery();
+			System.out.println("Pickup Points");
+			while(rs.next()){
+				pickupPoints.add(rs.getString("location"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); 
+		}
+		return pickupPoints;
+	}
+
+	public List<String> findDroppingPoints(Connection connection, String busno, String day, String routeID) {
+		List<String> dropPoints=new ArrayList<String>();
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement("select location from bus_route_mapping where bus_no=? and day=? and route_id=? and type in('drop','destination')");
+			preparedStatement.setString(1, busno);
+			preparedStatement.setString(2, day);
+			preparedStatement.setString(3, routeID);
+			ResultSet rs=preparedStatement.executeQuery();
+			System.out.println("Dropping Points");
+			while(rs.next()){
+				dropPoints.add(rs.getString("location"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dropPoints;
+	}
+	
 }

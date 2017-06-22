@@ -16,6 +16,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<input type="hidden" name="totalSeats" value=<%=request.getAttribute("totalseats") %> />
+
 	<h1>Select your seat</h1>
 	<!-- SquaredONE -->
 	<p>
@@ -27,7 +29,7 @@
 		<button id="Unavailable"></button>
 	</p>
 	<form>
-		<input type="hidden" name="FemaleSeats" value="${totalSeats}" />
+		<input type="hidden" name="totalSeats" value=<%=request.getAttribute("totalseats") %> />
 		<%=request.getAttribute("female")%>
 		<%=request.getAttribute("male")%>
 		<%
@@ -148,10 +150,12 @@
 			</tr>
 		</table>
 	</html:form>
-	<%-- <html:form styleId="display" action="/confirmseat" method="post"> --%>
+	
 	<html:form styleId="display" action="/passenger" method="post">
 	Total Seats<html:text property="totalseats" styleId="totalseats" />
-
+		<table>
+			<tr id="seatno"></tr>
+		</table>
 		<html:submit>submit</html:submit>
 	</html:form>
 
