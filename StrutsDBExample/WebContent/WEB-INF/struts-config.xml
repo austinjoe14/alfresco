@@ -37,6 +37,11 @@
 			<forward name="failure" path="/jsp/failure.jsp" />
 			<forward name="success" path="/jsp/success.jsp" />
 		</action>
+		<action name="loginForm" path="/search"
+			type="com.jwt.struts.action.SearchAction" input="/jsp/search.jsp">
+			<forward name="failure" path="/jsp/failure.jsp" />
+			<forward name="success" path="/jsp/searchresult.jsp" />
+		</action>
 		<action name="loginForm" path="/logout"
 			type="com.jwt.struts.action.LogoutAction" input="/jsp/header.jsp">
 			<forward name="success" path="/jsp/login.jsp" />

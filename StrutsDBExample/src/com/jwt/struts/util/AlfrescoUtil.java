@@ -2,7 +2,6 @@ package com.jwt.struts.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +16,7 @@ import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.ItemIterable;
+import org.apache.chemistry.opencmis.client.api.QueryResult;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
@@ -27,6 +27,7 @@ import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConstraintException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExistsException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
+import org.apache.struts.upload.FormFile;
 
 import com.jwt.struts.form.LoginForm;
 
@@ -42,7 +43,8 @@ public class AlfrescoUtil {
 	public static final String FOLDER_PATH = "/user";
 	public static final String destinationFolder = "D:/ec/New folder/";
 	public static final String PUBLICFOLDER = "/public";
-
+	public static final String sourceFolder = "C:/Users/austina/AppData/Local/Temp/";
+	
 	public static Session getCmisSession() {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put(SessionParameter.USER, "admin");
@@ -68,10 +70,6 @@ public class AlfrescoUtil {
 	public static List<LoginForm> showFolder(String userId) {
 		Session session = getCmisSession();
 		Folder parentFolder = getParentFolder(session);
-		List<String> paths = parentFolder.getPaths();
-		for (String o : paths) {
-			System.out.println("AlfrescoUtil.showFolder() "+o);
-		}
 		CmisObject object = session.getObject(session.getObjectByPath(parentFolder.getPath() + FOLDER_NAME + userId));
 		CmisObject objectOne = session.getObject(session.getObjectByPath(parentFolder.getPath() + PUBLICFOLDER));
 		Folder folder = (Folder) object;
@@ -83,12 +81,14 @@ public class AlfrescoUtil {
 			LoginForm form = new LoginForm();
 			form.setFileNames(o.getName());
 			form.setFileId(o.getId());
+			form.setCreator(o.getCreatedBy());
 			files.add(form);
 		}
 		for (CmisObject o : childrens) {
 			LoginForm form = new LoginForm();
 			form.setFileNames(o.getName());
 			form.setFileId(o.getId());
+			form.setCreator(o.getCreatedBy());
 			files.add(form);
 		}
 		return files;
@@ -138,41 +138,52 @@ public class AlfrescoUtil {
 		return folder;
 	}
 
-	public static Document createDocument(File file, String userName, String userId, String type)
+	public static Document createDocument(FormFile formFile, String userName, String userId, String type, String path)
 			throws FileNotFoundException {
 		System.out.println(type);
-		String fileName = file.getName();
-		String filepath = file.getAbsolutePath();
 		Map<String, Object> props = null;
 		Session cmisSession = getCmisSession();
 		Folder parentFolder = getParentFolder(cmisSession);
 		Folder subFolder;
+		long filesize = formFile.getFileSize();
+		String file = formFile.toString();
+		System.out.println(filesize);
+		System.out.println(formFile.getFileName());
 		if (props == null) {
 			props = new HashMap<String, Object>();
+
 		}
 		if (props.get("cmis:objectTypeId") == null) {
 			props.put("cmis:objectTypeId", "cmis:document");
 		}
 		if (props.get("cmis:name") == null) {
-			props.put("cmis:name", fileName);
+			props.put("cmis:name", formFile.getFileName());
 		}
-		ContentStream contentStream = cmisSession.getObjectFactory().createContentStream(fileName, file.length(),
-				FILE_TYPE, new FileInputStream(filepath));
+		props.put("cmis:createdBy", userName);
+		ContentStream contentStream = cmisSession.getObjectFactory().createContentStream(file, filesize, FILE_TYPE,
+				new FileInputStream(file));
 		Document document = null;
-		if (type == "private") {
+		if (type.equals("private")) {
+			System.out.println("inside");
 			try {
 				subFolder = (Folder) cmisSession.getObjectByPath(parentFolder.getPath() + FOLDER_NAME + userId);
 				document = subFolder.createDocument(props, contentStream, null);
 				System.out.println("Created new document: " + document.getId());
 			} catch (CmisContentAlreadyExistsException ccaee) {
-				System.out.println("Document already exists: " + fileName);
+				System.out.println("Document already exists: " + formFile.getFileName());
 			} catch (CmisConstraintException e) {
-				System.out.println("Document already exists: " + fileName + " " + document.getId());
+				System.out.println("Document already exists: " + formFile.getFileName() + " " + document.getId());
 			}
 		} else {
-			subFolder = (Folder) cmisSession.getObjectByPath(parentFolder.getPath() + PUBLICFOLDER);
-			document = subFolder.createDocument(props, contentStream, null);
-			System.out.println("Created new document: " + document.getId());
+			try {
+				subFolder = (Folder) cmisSession.getObjectByPath(parentFolder.getPath() + PUBLICFOLDER);
+				document = subFolder.createDocument(props, contentStream, null);
+				System.out.println("Created new document: " + document.getId());
+			} catch (CmisContentAlreadyExistsException ccaee) {
+				System.out.println("Document already exists: " + formFile.getFileName());
+			} catch (CmisConstraintException e) {
+				System.out.println("Document already exists: " + formFile.getFileName() + " " + document.getId());
+			}
 		}
 		return document;
 	}
@@ -220,5 +231,38 @@ public class AlfrescoUtil {
 		} catch (IOException e) {
 			throw new RuntimeException(e.getLocalizedMessage());
 		}
+	}
+
+	public static List<LoginForm> search(String name, String userId) {
+		Session session = getCmisSession();
+		System.out.println(name);
+		Folder parentFolder = getParentFolder(session);
+		CmisObject object = session.getObjectByPath(parentFolder.getPath() + FOLDER_NAME + userId);
+		CmisObject objectOne = session.getObjectByPath(parentFolder.getPath() + PUBLICFOLDER);
+		System.out.println(object);
+		String queryOne = "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + name + "%' and (in_folder('"
+				+ objectOne.getId() + "') or in_folder('" + object.getId() + "'))";
+		ItemIterable<QueryResult> queryResults = session.query(queryOne, false);
+		List<LoginForm> files = new ArrayList<LoginForm>();
+		int i = 1;
+		for (QueryResult result : queryResults) {
+			System.out.println("--------------------parent-------------------");
+			System.out.println("--------------------------------------------\n" + i + " , "
+					+ result.getPropertyByQueryName("cmis:objectTypeId").getFirstValue() + " , "
+					+ result.getPropertyByQueryName("cmis:name").getFirstValue() + " , "
+					+ result.getPropertyByQueryName("cmis:createdBy").getFirstValue() + " , "
+					+ result.getPropertyByQueryName("cmis:objectId").getFirstValue() + " , "
+					+ result.getPropertyByQueryName("cmis:contentStreamFileName").getFirstValue() + " , "
+					+ result.getPropertyByQueryName("cmis:contentStreamMimeType").getFirstValue() + " , "
+					+ result.getPropertyByQueryName("cmis:contentStreamLength").getFirstValue());
+			i++;
+			LoginForm form = new LoginForm();
+			String names = (String) result.getPropertyByQueryName("cmis:name").getFirstValue();
+			form.setFileNames(names);
+			String id = (String) result.getPropertyByQueryName("cmis:objectId").getFirstValue();
+			form.setFileId(id);
+			files.add(form);
+		}
+		return files;
 	}
 }

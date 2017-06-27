@@ -10,7 +10,7 @@
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
  <html:form action="upload" method="post" enctype="multipart/form-data">
-            File : <html:file property="fileName" /> <br/>
+            File : <html:file property="files" /> <br/>
             Who can See:-
 			<html:select property="fileType">
 				<html:option value="private">only me</html:option>

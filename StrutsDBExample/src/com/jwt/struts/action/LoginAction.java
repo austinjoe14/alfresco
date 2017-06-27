@@ -1,9 +1,5 @@
 package com.jwt.struts.action;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -37,21 +33,9 @@ public class LoginAction extends Action {
 		session.setAttribute("userName", userForm.getUserName());
 		session.setAttribute("password", userForm.getPassword());
 		System.out.println("choice is " + choice);
-		//AlfrescoUtil.getParentFolder();
-		String userId=userForm.getUserId();
-		System.out.println(userId);
-		AlfrescoUtil.createFolders(userName,userId);	
-		// displaying files
-		loginForm.setFile( AlfrescoUtil.showFolder(userId));
-		System.out.println(loginForm.getFile());
-		List<LoginForm> folder = new ArrayList<LoginForm>();
-		folder= AlfrescoUtil.showFolder(userId);
-		System.out.println("action " + folder);
-		Iterator<LoginForm> it = folder.iterator();
-
-		while (it.hasNext()) {
-			System.out.println(it.next().toString());
-		}
+		String userId = userForm.getUserId();
+		AlfrescoUtil.createFolders(userName, userId);
+		loginForm.setFile(AlfrescoUtil.showFolder(userId));
 		if (choice) {
 			return mapping.findForward("success");
 		} else

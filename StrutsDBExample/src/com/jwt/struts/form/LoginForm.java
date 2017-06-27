@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts.action.ActionForm;
+import org.apache.struts.upload.FormFile;
 
 public class LoginForm extends ActionForm {
 	private static final long serialVersionUID = 1L;
@@ -16,7 +17,10 @@ public class LoginForm extends ActionForm {
 	private String fileId;
 	private String userId;
 	private List<LoginForm> file = new ArrayList<LoginForm>();
+	private FormFile files;
 	private String fileType;
+	private String creator;
+	
 	@Override
 	public String toString() {
 		return "LoginForm [fileNames=" + fileNames + ", fileId=" + fileId + "]";
@@ -93,5 +97,22 @@ public class LoginForm extends ActionForm {
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
+
+	public FormFile getFiles() {
+		return files;
+	}
+
+	public void setFiles(FormFile files) {
+		this.files = files;
+	}
+
+	public String getCreator() {
+		return creator;
+	}
+
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	
 	
 }
