@@ -25,7 +25,7 @@ public class UploadAction extends Action {
 		System.out.println("-----------------------upload=--------------------");
 		FormFile formFile = null;
 		formFile = fileForm.getFiles();
-		long size=formFile.getFileSize();
+		long size = formFile.getFileSize();
 		String path = getServlet().getServletContext().getRealPath("") + "/" + formFile.getFileName();
 		System.out.println(path + " and size is " + size);
 		String filePath = System.getProperty("java.io.tmpdir") + "/" + fileForm.getFiles().getFileName();

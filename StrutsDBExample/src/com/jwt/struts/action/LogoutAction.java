@@ -9,7 +9,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-public class LogoutAction extends Action{
+public class LogoutAction extends Action {
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -21,5 +21,5 @@ public class LogoutAction extends Action{
 		session.invalidate();
 		return mapping.findForward("success");
 	}
-	
+
 }

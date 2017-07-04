@@ -218,11 +218,11 @@ public class AlfrescoUtil {
 	}
 
 	public static void downloadDocumentByID(String documentID, String name, String userId) {
-		
+
 		Document newDocument = (Document) getCmisSession().getObject(documentID);
 		String file = newDocument.getName();
 		String ext1 = FilenameUtils.getExtension(file);
-		String fullPath = destinationFolder + name+"."+ext1;
+		String fullPath = destinationFolder + name + "." + ext1;
 		System.out.println("---------------------------------------------------------");
 		System.out.println(ext1);
 		try {
@@ -301,10 +301,8 @@ public class AlfrescoUtil {
 			zipOut.close();
 			System.out.println("Done... Zipped the files...");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {

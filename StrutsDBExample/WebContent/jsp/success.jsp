@@ -16,15 +16,16 @@
 <body bgcolor="silver">
 	<jsp:include page="header.jsp"></jsp:include>
 	<div id="first"></div>
-	<div id="middle">name is
+	<div id="middle">
+		name is
 		<%=session.getAttribute("firstName")%>
 		<%=session.getAttribute("lastName")%><br> <br> user name is
 		<%=session.getAttribute("email")%><br> <br> Phone no is
 		<%=session.getAttribute("phone")%><br>
 	</div>
 	<jsp:include page="/jsp/menu.jsp"></jsp:include>
-		<html:form action="search" styleId="searchfile">
-		<td>File Name<html:text property="fileNames"/></td>
+	<html:form action="search" styleId="searchfile">
+		<td>File Name<html:text property="fileNames" /></td>
 		<input type="submit" value="search" />
 	</html:form>
 	<table border="1">
@@ -41,7 +42,8 @@
 				<td><bean:write name="fileName" property="fileNames" /></td>
 				<td><input type="radio" name="deleteinfo"></td>
 				<td><input type="radio" name="downloadfile"></td>
-				<td><input type="checkbox" value="<%=fileName%>" name="downloadmultifile"></td>
+				<td><input type="checkbox" value="<%=fileName%>"
+					name="downloadmultifile"></td>
 			</tr>
 		</logic:iterate>
 	</table>
@@ -58,7 +60,7 @@
 		<br>
 		<input type="submit" value="delete" />
 	</html:form>
-	
+
 	<html:form action="download" styleId="downloadfile">
 		<table border="1" cellpadding="5">
 			<tr>
@@ -72,12 +74,12 @@
 		<br>
 		<input type="submit" value="download" />
 	</html:form>
-	
+
 	<html:form action="downloadZip" styleId="downloadmultifile">
 		<table border="1" cellpadding="5">
 			<tr>
 				<td>Document download as zip</td>
-				<td><input type="text" name="fileName"/></td>
+				<td><input type="text" name="fileName" /></td>
 				<td><input type="hidden" name="fileIds" /></td>
 				<td>New File Name<input type="text" name="newFileName"
 					required="required" /></td>

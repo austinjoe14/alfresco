@@ -26,7 +26,6 @@ public class UserDAO {
 			dataSource = (DataSource) envContext.lookup("database");
 			connection = dataSource.getConnection();
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;

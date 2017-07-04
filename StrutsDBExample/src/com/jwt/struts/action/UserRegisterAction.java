@@ -11,9 +11,8 @@ import com.jwt.struts.dao.UserDAO;
 import com.jwt.struts.form.UserForm;
 
 public class UserRegisterAction extends Action {
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		HttpSession ses = request.getSession(true);
 		UserForm registerForm = (UserForm) form;
 		String firstName = registerForm.getFirstName();
@@ -29,8 +28,8 @@ public class UserRegisterAction extends Action {
 		ses.setAttribute("userName", userName);
 		ses.setAttribute("email", email);
 		ses.setAttribute("phone", phone);
-		if (firstName.equals("") || lastName.equals("") || userName.equals("")
-				|| password.equals("") || email.equals("") || phone.equals("")) {
+		if (firstName.equals("") || lastName.equals("") || userName.equals("") || password.equals("")
+				|| email.equals("") || phone.equals("")) {
 			return mapping.findForward("error");
 		}
 		return mapping.findForward("success");

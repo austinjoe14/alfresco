@@ -20,7 +20,7 @@ public class LoginForm extends ActionForm {
 	private FormFile files;
 	private String fileType;
 	private String creator;
-	
+
 	@Override
 	public String toString() {
 		return "LoginForm [fileNames=" + fileNames + ", fileId=" + fileId + "]";
@@ -113,6 +113,5 @@ public class LoginForm extends ActionForm {
 	public void setCreator(String creator) {
 		this.creator = creator;
 	}
-	
-	
+
 }

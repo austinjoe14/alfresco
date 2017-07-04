@@ -17,12 +17,11 @@ public class UserForm extends ActionForm {
 	private String email;
 	private String phone;
 	private String userId;
-	public ActionErrors validate(ActionMapping mapping,
-			HttpServletRequest request) {
+
+	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
 		ActionErrors errors = new ActionErrors();
 		if (firstName == null || firstName.length() < 1) {
-			errors.add("firstName", new ActionMessage(
-					"error.firstName.required"));
+			errors.add("firstName", new ActionMessage("error.firstName.required"));
 
 		}
 		if (lastName == null || lastName.length() < 1) {
