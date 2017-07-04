@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
@@ -27,6 +29,7 @@ import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConstraintException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExistsException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.struts.upload.FormFile;
 
 import com.jwt.struts.form.LoginForm;
@@ -44,7 +47,8 @@ public class AlfrescoUtil {
 	public static final String destinationFolder = "D:/ec/New folder/";
 	public static final String PUBLICFOLDER = "/public";
 	public static final String sourceFolder = "C:/Users/austina/AppData/Local/Temp/";
-	
+	public static final String sourceFolders = "D:/gitpart/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/StrutsDBExample/";
+
 	public static Session getCmisSession() {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put(SessionParameter.USER, "admin");
@@ -149,9 +153,11 @@ public class AlfrescoUtil {
 		String file = formFile.toString();
 		System.out.println(filesize);
 		System.out.println(formFile.getFileName());
+		String ext1 = FilenameUtils.getExtension(file);
+		System.out.println("---------------------------------------------------------");
+		System.out.println(ext1);
 		if (props == null) {
 			props = new HashMap<String, Object>();
-
 		}
 		if (props.get("cmis:objectTypeId") == null) {
 			props.put("cmis:objectTypeId", "cmis:document");
@@ -212,9 +218,13 @@ public class AlfrescoUtil {
 	}
 
 	public static void downloadDocumentByID(String documentID, String name, String userId) {
-
-		String fullPath = destinationFolder + name;
+		
 		Document newDocument = (Document) getCmisSession().getObject(documentID);
+		String file = newDocument.getName();
+		String ext1 = FilenameUtils.getExtension(file);
+		String fullPath = destinationFolder + name+"."+ext1;
+		System.out.println("---------------------------------------------------------");
+		System.out.println(ext1);
 		try {
 			ContentStream cs = newDocument.getContentStream(null);
 			BufferedInputStream in = new BufferedInputStream(cs.getStream());
@@ -265,4 +275,45 @@ public class AlfrescoUtil {
 		}
 		return files;
 	}
+
+	public static void zipFiles(List<String> files, String newName, String userId) {
+		FileOutputStream fos = null;
+		ZipOutputStream zipOut = null;
+		String fullPath = destinationFolder + newName + ".zip";
+		try {
+			fos = new FileOutputStream(fullPath);
+			zipOut = new ZipOutputStream(new BufferedOutputStream(fos));
+			for (String filePath : files) {
+				Document newDocument = (Document) getCmisSession().getObject(filePath);
+				ContentStream cs = newDocument.getContentStream(null);
+				BufferedInputStream in = new BufferedInputStream(cs.getStream());
+				ZipEntry ze = new ZipEntry(newDocument.getName());
+				System.out.println("Zipping the file: " + newDocument.getName());
+				zipOut.putNextEntry(ze);
+				byte[] tmp = new byte[4 * 1024];
+				int size = 0;
+				while ((size = in.read(tmp)) != -1) {
+					zipOut.write(tmp, 0, size);
+				}
+				zipOut.flush();
+				in.close();
+			}
+			zipOut.close();
+			System.out.println("Done... Zipped the files...");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fos != null)
+					fos.close();
+			} catch (Exception ex) {
+
+			}
+		}
+	}
+
 }

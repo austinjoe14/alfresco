@@ -3,7 +3,7 @@
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html"%>
 <%@taglib prefix="bean" uri="http://struts.apache.org/tags-bean"%>
 <%@taglib prefix="logic" uri="http://struts.apache.org/tags-logic"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -20,6 +20,7 @@
 			<td align="center">Name</td>
 			<td align="center">Delete</td>
 			<td align="center">Download</td>
+			<td align="center">Multiple Download</td>
 		</tr>
 		<logic:iterate id="fileName" property="file" name="loginForm">
 			<tr>
@@ -27,11 +28,15 @@
 				<td><bean:write name="fileName" property="fileNames" /></td>
 				<td><input type="radio" name="deleteinfo"></td>
 				<td><input type="radio" name="downloadfile"></td>
+				<td><input type="checkbox" name="downloadmultifile"></td>
 			</tr>
 		</logic:iterate>
 	</table>
+<%-- 	<html:form action="deletezip" styleId="downloadmultifile">
+	
+	</html:form> --%>
 	<html:form action="delete" styleId="deleteinfo">
-		<table border="1" cellpadding="5">
+		<table border="1">
 			<tr>
 				<td>Document Name</td>
 				<td><html:text property="fileNames" readonly="true" /></td>
@@ -42,7 +47,7 @@
 		<input type="submit" value="delete" />
 	</html:form>
 	<html:form action="download" styleId="downloadfile">
-		<table border="1" cellpadding="5">
+		<table border="1">
 			<tr>
 				<td>Document Name</td>
 				<td>File Name<html:text property="fileNames" readonly="true" /></td>

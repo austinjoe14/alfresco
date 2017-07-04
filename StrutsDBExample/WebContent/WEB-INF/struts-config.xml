@@ -46,6 +46,10 @@
 			type="com.jwt.struts.action.LogoutAction" input="/jsp/header.jsp">
 			<forward name="success" path="/jsp/login.jsp" />
 		</action>
+		<action name="loginForm" path="/downloadZip"
+			type="com.jwt.struts.action.ZipDownloadAction" input="/jsp/success.jsp">
+			<forward name="success" path="/jsp/success.jsp" />
+		</action>
 	</action-mappings>
 	<message-resources parameter="com/jwt/struts/bundle/ApplicationResource" />
 	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">

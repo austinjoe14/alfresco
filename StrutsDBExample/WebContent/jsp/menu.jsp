@@ -10,13 +10,6 @@
 <body>
 	<ul>
 	<li><a href="jsp/upload.jsp">upload document</a></li>
-	
-	
-	
-	
-<!-- 		<li><a href="jsp/show.jsp">show document</a></li>
-		<li><a href="jsp/download.jsp">download document</a></li>
-		<li><a href="jsp/delete.jsp">delete document</a></li> -->
 	</ul>
 </body>
 </html>
