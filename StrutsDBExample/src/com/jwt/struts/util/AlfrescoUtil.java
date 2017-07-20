@@ -50,6 +50,7 @@ public class AlfrescoUtil {
 	public static final String sourceFolders = "D:/gitpart/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/StrutsDBExample/";
 
 	public static Session getCmisSession() {
+
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put(SessionParameter.USER, "admin");
 		parameters.put(SessionParameter.PASSWORD, "admin");
@@ -153,9 +154,6 @@ public class AlfrescoUtil {
 		String file = formFile.toString();
 		System.out.println(filesize);
 		System.out.println(formFile.getFileName());
-		String ext1 = FilenameUtils.getExtension(file);
-		System.out.println("---------------------------------------------------------");
-		System.out.println(ext1);
 		if (props == null) {
 			props = new HashMap<String, Object>();
 		}
@@ -223,8 +221,6 @@ public class AlfrescoUtil {
 		String file = newDocument.getName();
 		String ext1 = FilenameUtils.getExtension(file);
 		String fullPath = destinationFolder + name + "." + ext1;
-		System.out.println("---------------------------------------------------------");
-		System.out.println(ext1);
 		try {
 			ContentStream cs = newDocument.getContentStream(null);
 			BufferedInputStream in = new BufferedInputStream(cs.getStream());
@@ -249,14 +245,12 @@ public class AlfrescoUtil {
 		Folder parentFolder = getParentFolder(session);
 		CmisObject object = session.getObjectByPath(parentFolder.getPath() + FOLDER_NAME + userId);
 		CmisObject objectOne = session.getObjectByPath(parentFolder.getPath() + PUBLICFOLDER);
-		System.out.println(object);
 		String queryOne = "SELECT * FROM cmis:document WHERE cmis:name LIKE '" + name + "%' and (in_folder('"
 				+ objectOne.getId() + "') or in_folder('" + object.getId() + "'))";
 		ItemIterable<QueryResult> queryResults = session.query(queryOne, false);
 		List<LoginForm> files = new ArrayList<LoginForm>();
 		int i = 1;
 		for (QueryResult result : queryResults) {
-			System.out.println("--------------------parent-------------------");
 			System.out.println("--------------------------------------------\n" + i + " , "
 					+ result.getPropertyByQueryName("cmis:objectTypeId").getFirstValue() + " , "
 					+ result.getPropertyByQueryName("cmis:name").getFirstValue() + " , "
